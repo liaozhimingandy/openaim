@@ -3,8 +3,7 @@ name: Automated Release
 on:
   push:
     branches:
-      - main
-      - develop
+      - stable/*
 
 jobs:
   release:
