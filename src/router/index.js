@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {//beforeEach是router的钩子函数，�
     if (to.meta.title) {
         document.title = to.meta.title + ' | openaim'
     }
-
+ 
     // 如果路径不是以 / 开头，则自动添加 /
     if (!to.path.endsWith('/')) {
         next({path: to.path + '/'});
