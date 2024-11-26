@@ -1,0 +1,67 @@
+name: Automated Release
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}  # 将输出值传递给后续的步骤
+      tag_name: ${{ steps.release.outputs.tag_name }}  # 将输出值传递给后续的步骤
+    permissions:
+      contents: write        # 允许写入代码内容
+      pull-requests: write   # 允许创建和管理 Pull Requests
+
+    steps:
+      - name: Run Release Please
+        id: release
+        uses: googleapis/release-please-action@v4 # https://github.com/googleapis/release-please-action
+        with:
+          release-type: "node"  # 这个可以是你的项目使用的配置文件对应的语言, 一般node使用的是package.json
+          token: "${{ secrets.GH_TOKEN }}"  # 使用你的个人访问令牌
+          target-branch: ${{ github.ref_name }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: release
+    if: ${{ needs.release.outputs.release_created }}  # 使用环境变量判断是否执行
+    permissions:
+      contents: write        # 允许写入代码内容
+      pull-requests: write   # 允许创建和管理 Pull Requests
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm # 或 pnpm / yarn
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Install dependencies
+        run: npm ci # 或 pnpm install / yarn install / bun install
+
+      - name: Build with npm
+        run: | # 或 pnpm build / yarn build / bun run build
+          npm run build 
+          cp dist/index.html dist/404.html
+
+      # 打包成压缩文件
+      - name: Archive build files
+        run: zip -r build.zip ./dist  # 将 dist 文件夹打包成 build.zip
+
+      # 上传构建文件到 GitHub Release
+      - name: Upload Release Artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ needs.release.outputs.tag_name }} build.zip
