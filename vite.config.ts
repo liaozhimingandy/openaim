@@ -9,7 +9,7 @@ import removeConsole from 'vite-plugin-remove-console'
 
 // https://vite.dev/config/
 export default defineConfig({
-    base: '/openaim/', // 这里保持和你你的 GitHub 仓库名一致
+    base: '/', // 这里保持和你你的 GitHub 仓库名一致
     define: {
         __APP_VERSION__: JSON.stringify(version),
     },
