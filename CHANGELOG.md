@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/liaozhimingandy/openaim/compare/v1.0.0...v1.0.1) (2024-12-30)
+
+
+### Bug Fixes
+
+* **core:** 优化部分显示体验 ([dd763bc](https://github.com/liaozhimingandy/openaim/commit/dd763bce25f0860305796c36ac8149c90163a877))
+
 ## 1.0.0 (2024-12-15)
 
 
