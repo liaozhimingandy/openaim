@@ -24,7 +24,7 @@ NProgress.configure({
 }); // 不显示默认的spinner
 
 const routes = [
-    {path: '/', name: 'home', component: HomePage, meta: {title: "首页"}},
+    {path: '/', name: 'home', component: HomePage},
     {path: '/:catchALL(.*)/', component: NotFoundPage, name: 'not-fond', meta: {title: "Not Found"}},
 ]
 
