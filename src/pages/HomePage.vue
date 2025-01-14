@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {ref, onMounted, onBeforeUnmount} from 'vue';
-import {BugOutlined} from '@ant-design/icons-vue';
 import {CScrollbar} from 'c-scrollbar'; // 滚动条
 
 const items = [
@@ -46,7 +45,12 @@ onBeforeUnmount(async () => {
     <a-layout-header ref="header" :style="{position: 'fixed', zIndex: 1, width: '100%',
       'background-color': 'white'}">
       <a-flex justify="space-between" align="center" style="height: 100%">
-        <BugOutlined/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 60" width="140" height="60">
+          <rect width="140" height="60" fill="#cccccc"></rect>
+          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="16px"
+                fill="#333333">邀请你来设计LOGO
+          </text>
+        </svg>
         <a-anchor direction="horizontal" :items="items" :targetOffset="targetOffset"/>
         <a-button href="mailto:liaozhimingandy@gmail.com" type="primary">联系我们</a-button>
       </a-flex>
@@ -63,7 +67,7 @@ onBeforeUnmount(async () => {
           <a-typography-title>和我们一起使用大语言模型(AI)造福人类!</a-typography-title>
         </div>
         <div id="aboutme" class="content">
-          <a-typography-title>我们正在寻找和我们有共同目标的朋友...一起加入我们吗?</a-typography-title>
+          <a-typography-title>我们正在寻找和我们有共同目标的朋友...<br>一起加入我们吗?</a-typography-title>
         </div>
       </c-scrollbar>
     </a-layout-content>
