@@ -1,13 +1,461 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="zh">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>openaim</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="https://unpkg.com/amis@6.12.0/sdk/antd.css" />
+    <link rel="stylesheet" href="https://unpkg.com/amis@6.12.0/sdk/helper.css" />
+    <link rel="stylesheet" href="https://unpkg.com/amis@6.12.0/sdk/iconfont.css" />
+    <!-- 这是默认主题所需的，如果是其他主题则不需要 -->
+    <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css，并把前面那个删了 -->
+    <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
+    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有细节功能用不了，如果发现请报 issue -->
+    <style>
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="app" class="app-wrapper"></div>
+    <script src="https://unpkg.com/amis@6.12.0/sdk/sdk.js"></script>
+    <script type="text/javascript">
+      (function () {
+        let amis = amisRequire('amis/embed');
+        // 通过替换下面这个配置来生成不同页面
+        let amisJSON = {
+  "type": "page",
+  "title": "OpenAIM 低代码平台",
+  "body": [
+    {
+      "type": "grid",
+      "id": "u:ddb92f55527d",
+      "columns": [
+        {
+          "id": "u:c11ca3ac29d8",
+          "md": "auto",
+          "body": [
+            {
+              "type": "avatar",
+              "showtype": "image",
+              "fit": "contain",
+              "style": {
+                "width": 40,
+                "height": 40,
+                "borderRadius": 0,
+                "fontFamily": "",
+                "fontSize": 12,
+                "backgroundColor": "rgba(255, 255, 255, 1)",
+                "paddingTop": "2",
+                "paddingLeft": "2"
+              },
+              "id": "u:a71f7f066048",
+              "src": "https://www.alsoapp.com/favicon.svg",
+              "gap": 4,
+              "icon": ""
+            }
+          ],
+          "valign": "middle"
+        },
+        {
+          "body": [
+            {
+              "type": "container",
+              "body": [
+                {
+                  "type": "nav",
+                  "id": "u:d2b97ed930ba",
+                  "stacked": false,
+                  "mode": "float",
+                  "className": "bg-white shadow-sm",
+                  "brand": {
+                    "label": "OpenAIM",
+                    "logo": "https://www.alsoapp.com/favicon.svg",
+                    "to": "/"
+                  },
+                  "links": [
+                    {
+                      "label": "首页",
+                      "children": [],
+                      "id": "0",
+                      "active": true,
+                      "link": "home"
+                    },
+                    {
+                      "label": "目标",
+                      "id": "1",
+                      "children": [],
+                      "link": "target"
+                    },
+                    {
+                      "label": "关于我们",
+                      "id": "2",
+                      "children": [],
+                      "link": "aboutus"
+                    }
+                  ],
+                  "style": {
+                    "fontFamily": "",
+                    "fontSize": 16,
+                    "fontWeight": "bold",
+                    "textAlign": "left",
+                    "cursor": "auto"
+                  },
+                  "onEvent": {
+                    "click": {
+                      "weight": 0,
+                      "actions": [
+                        {
+                          "ignoreError": false,
+                          "actionType": "custom",
+                          "args": {},
+                          "script": "/* 自定义JS使用说明：\n  * 1.动作执行函数doAction，可以执行所有类型的动作\n  * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性\n  * 3.事件对象event，在doAction之后执行event.stopPropagation();可以阻止后续动作执行\n*/\nconsole.info('debug:' + event.data.item.link);\ndocument.getElementById(event.data.item.link)?.scrollIntoView({ behavior: 'smooth' });\n"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "style": {
+                "position": "static",
+                "display": "flex",
+                "textAlign": "center",
+                "flexWrap": "nowrap",
+                "justifyContent": "center",
+                "alignItems": "center"
+              },
+              "size": "none",
+              "wrapperBody": false,
+              "id": "u:7ce9bb066477",
+              "isFixedHeight": false,
+              "isFixedWidth": false
+            }
+          ],
+          "id": "u:21d0dcbfaa7d",
+          "valign": "middle",
+          "md": 9
+        },
+        {
+          "body": [
+            {
+              "type": "button",
+              "label": "联系我们",
+              "onEvent": {
+                "click": {
+                  "actions": [],
+                  "debounce": {
+                    "wait": 100
+                  }
+                }
+              },
+              "id": "u:ee710ce99e41",
+              "disabledOnAction": false,
+              "block": true,
+              "size": "md",
+              "level": "primary",
+              "wrapperCustomStyle": {
+                "root": {}
+              },
+              "actionType": "email",
+              "to": "contact@openaim.cn",
+              "subject": "这是邮件主题",
+              "body": "填写你邮件内容",
+              "tooltip": "联系方式: contact@openaim.cn",
+              "confirmText": "是否发送邮件"
+            }
+          ],
+          "id": "u:c36b0e028c3d",
+          "md": "auto",
+          "valign": "middle"
+        }
+      ],
+      "align": "center",
+      "valign": "middle",
+      "themeCss": {
+        "baseControlClassName": {
+          "background:default": "var(--colors-neutral-fill-11)",
+          "padding-and-margin:default": {
+            "marginTop": "var(--sizes-size-0)",
+            "marginRight": "var(--sizes-size-0)",
+            "marginBottom": "var(--sizes-size-0)",
+            "marginLeft": "var(--sizes-size-0)"
+          }
+        }
+      }
+    },
+    {
+      "type": "container",
+      "body": [
+        {
+          "type": "tpl",
+          "tpl": "<div id=\"home\" style=\"height: 80vh; justify-content:center;align-items:center; display:flex\">通用人工智能(AI)时代已来临</div>",
+          "inline": true,
+          "wrapperComponent": "",
+          "id": "u:1a64d78a28cc",
+          "themeCss": {
+            "baseControlClassName": {
+              "font:default": {
+                "fontSize": "var(--fonts-size-2)"
+              }
+            }
+          },
+          "animations": {
+            "enter": {
+              "duration": 1,
+              "delay": 0,
+              "inView": true,
+              "repeat": false,
+              "type": "fadeIn"
+            },
+            "hover": {
+              "duration": 1,
+              "delay": 0,
+              "type": "hoverZoomIn"
+            },
+            "exit": {
+              "duration": 1,
+              "delay": 0,
+              "outView": true,
+              "type": "fadeOut"
+            }
+          }
+        }
+      ],
+      "style": {
+        "position": "relative",
+        "display": "flex",
+        "inset": "auto",
+        "flexWrap": "nowrap",
+        "flexDirection": "column",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "maxHeight": "80vh",
+        "overflowY": "visible",
+        "minHeight": "80vh"
+      },
+      "size": "none",
+      "wrapperBody": false,
+      "id": "u:b561f6c229a8",
+      "isFixedHeight": false,
+      "isFixedWidth": false,
+      "themeCss": {
+        "baseControlClassName": {
+          "padding-and-margin:default": {}
+        }
+      }
+    },
+    {
+      "type": "container",
+      "body": [
+        {
+          "type": "tpl",
+          "tpl": "<div id=\"target\" style=\"height: 80vh; justify-content:center;align-items:center; display:flex\">和我们一起使用大语言模型(AI)造福人类!</div>",
+          "inline": true,
+          "wrapperComponent": "",
+          "id": "u:2e45e4e61449",
+          "themeCss": {
+            "baseControlClassName": {
+              "font:default": {
+                "fontSize": "var(--fonts-size-2)"
+              }
+            }
+          },
+          "animations": {
+            "enter": {
+              "duration": 1,
+              "delay": 0,
+              "inView": true,
+              "repeat": false,
+              "type": "fadeIn"
+            },
+            "exit": {
+              "duration": 1,
+              "delay": 0,
+              "outView": true,
+              "type": "fadeOut"
+            }
+          },
+          "wrapperCustomStyle": {}
+        }
+      ],
+      "style": {
+        "position": "static",
+        "display": "flex",
+        "maxHeight": "80vh",
+        "overflowY": "auto",
+        "minHeight": "80vh",
+        "flexWrap": "nowrap",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "size": "none",
+      "wrapperBody": false,
+      "id": "u:545f2c4aaf98",
+      "isFixedHeight": false,
+      "isFixedWidth": false,
+      "animations": {
+        "enter": {
+          "duration": 1,
+          "delay": 0,
+          "inView": true,
+          "repeat": false,
+          "type": "fadeIn"
+        },
+        "exit": {
+          "duration": 1,
+          "delay": 0,
+          "outView": true,
+          "type": "fadeOut"
+        }
+      }
+    },
+    {
+      "type": "container",
+      "body": [
+        {
+          "type": "tpl",
+          "tpl": "<div id='aboutus' style=\"height: 80vh; justify-content:center;align-items:center; display:flex\">我们正在寻找和我们有共同目标的朋友...\n<br>一起加入我们吗?</div>",
+          "inline": true,
+          "wrapperComponent": "",
+          "id": "aboutus",
+          "themeCss": {
+            "baseControlClassName": {
+              "font:default": {
+                "fontSize": "var(--fonts-size-2)"
+              }
+            }
+          },
+          "animations": {
+            "enter": {
+              "duration": 1,
+              "delay": 0,
+              "inView": true,
+              "repeat": false,
+              "type": "fadeIn"
+            },
+            "exit": {
+              "duration": 1,
+              "delay": 0,
+              "outView": true,
+              "type": "fadeOut"
+            }
+          },
+          "wrapperCustomStyle": {
+            ":root": {
+              "height": "100%"
+            }
+          }
+        }
+      ],
+      "style": {
+        "position": "relative",
+        "display": "flex",
+        "inset": "auto",
+        "flexWrap": "nowrap",
+        "flexDirection": "column",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "flex": "0 0 150px",
+        "flexBasis": "150px",
+        "overflowY": "visible",
+        "maxHeight": "80vh",
+        "minHeight": "80vh"
+      },
+      "size": "none",
+      "wrapperBody": false,
+      "id": "u:e22bda83213b",
+      "isFixedWidth": false,
+      "isFixedHeight": false
+    },
+    {
+      "type": "tpl",
+      "className": "text-center py-4 bg-light",
+      "tpl": "<p style=\"text-align: center;\">&copy; 2025 OpenAIM.cn版权所有</p>",
+      "id": "u:9adebcf1d01f"
+    },
+    {
+      "type": "tpl",
+      "tpl": "<div id='goTopBtn' style='position:fixed;bottom:20px;right:20px;z-index:9999;background:#1890ff;color:#fff;width:40px;height:40px;border-radius:50%;text-align:center;line-height:40px;cursor:pointer;'>↑</div>",
+      "onEvent": {
+        "click": {
+          "weight": 0,
+          "actions": [
+            {
+              "ignoreError": false,
+              "script": "/* 自定义JS使用说明：\n  * 1.动作执行函数doAction，可以执行所有类型的动作\n  * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性\n  * 3.事件对象event，在doAction之后执行event.stopPropagation();可以阻止后续动作执行\n*/\n/* 跳转到最顶端 */\ndocument.querySelector('.amis-scope')?.scrollTo({ top: 0, behavior: 'smooth' });\n",
+              "actionType": "custom",
+              "args": {}
+            }
+          ],
+          "debounce": {
+            "wait": 100
+          }
+        }
+      },
+      "id": "u:d29046f6d952"
+    }
+  ],
+  "id": "u:45cbf4447f0f",
+  "asideResizor": false,
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": [
+    "body"
+  ],
+  "themeCss": {
+    "baseControlClassName": {
+      "padding-and-margin:default": {}
+    },
+    "bodyControlClassName": {
+      "background:default": "var(--colors-neutral-line-8)",
+      "padding-and-margin:default": {
+        "paddingTop": "var(--sizes-size-0)",
+        "paddingRight": "var(--sizes-size-0)",
+        "paddingBottom": "var(--sizes-size-0)",
+        "paddingLeft": "var(--sizes-size-0)"
+      }
+    }
+  }
+};
+
+let amisScoped = amis.embed('#app',
+  amisJSON,
+  {
+    "data": {
+        "version": "1.0"
+    },
+    "context":{
+      "API_HOST": 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com'
+    },
+    "locale": "zh-CN"
+},
+{
+    "theme": "antd",
+    "enableAMISDebug": false,
+    "locationType": "hash"
+});
+
+function handleChange() {
+  const schema = {
+    ...amisJSON,
+    body: ['changed']
+  };
+  amisScoped.updateSchema(schema);
+}
+      })();
+    </script>
   </body>
 </html>
