@@ -46,7 +46,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-html  # artifact 名称
+          name: github-pages  # artifact 名称
           path: dist        # artifact 内容（dist 目录）
 
   # =============================
@@ -61,7 +61,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-html  # 对应工作流 1 中的 artifact 名称
+          name: github-pages  # 对应工作流 1 中的 artifact 名称
           path: dist        # 下载到 dist 目录
 
       # 将 dist 部署到 GitHub Pages
@@ -80,7 +80,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-html  # 必须与工作流 1 上传时的 artifact 名称一致
+          name: github-pages  # 必须与工作流 1 上传时的 artifact 名称一致
           path: dist        # 下载到本地 dist 目录
 
       # 压缩构建产物为 ZIP
@@ -101,8 +101,8 @@ jobs:
       - name: Create Release and Upload Asset
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.SHORT_SHA }}   # 使用当前推送的 tag
-          name: "Release ${{ env.SHORT_SHA }}"
+          tag_name: ${{ env.TAG_NAME }}   # 使用当前推送的 tag
+          name: "Release ${{ env.TAG_NAME }}"
           files: build.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
