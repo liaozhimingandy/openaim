@@ -61,9 +61,16 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy via git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git clone --branch gh-pages https://github.com/${{ github.repository }} gh-pages
+          rsync -av --delete dist/ gh-pages/
+          cd gh-pages
+          git add .
+          git commit -m "Deploy via GitHub Actions"
+          git push origin gh-pages
 
   # =============================
   # 3. 发布 Release
@@ -89,7 +96,7 @@ jobs:
         id: vars
         run: |
           SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
-          TAG_NAME="release-$(date +'%Y%m%d-%H%M%S')-${SHORT_SHA}"
+          TAG_NAME="release-$(date +'%Y%m%d')-${SHORT_SHA}"
           echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
 
       # docker 构建
