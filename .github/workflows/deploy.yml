@@ -6,7 +6,7 @@ name: Build, Deploy & Release
 on:
   push:
     branches:
-      - main  # 当 main 分支有代码推送时触发
+      - main2  # 当 main 分支有代码推送时触发
 
 permissions:
   contents: write   # 允许创建 Release
@@ -44,47 +44,25 @@ jobs:
 
       # 将编译产物上传到 GitHub（artifact）
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages  # artifact 名称
-          path: dist        # artifact 内容（dist 目录）
+          path: dist
 
   # =============================
   # 2. 部署到 GitHub Pages
   # =============================
-#  deploy:
-#    environment:
-#      name: github-pages
-#      url: ${{ steps.deployment.outputs.page_url }}
-#    needs: build
-#    if: ${{ needs.build.result == 'success' }}   # 明确要求 build 成功才执行
-#    runs-on: ubuntu-latest
-#    name: Deploy
-#    steps:
-#      # 下载工作流 1 上传的 artifact
-#      - name: Download artifact
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: github-pages  # 必须与工作流 1 上传时的 artifact 名称一致
-#          path: dist        # 下载到本地 dist 目录
-#
-#      - name: List dist content for debug
-#        run: ls -alh dist
-#
-#      - name: Remove symlinks from dist
-#        run: |
-#          find dist -type l -exec rm -f {} +
-#
-#      - name: Clean dist folder
-#        run: |
-#          find dist -name ".DS_Store" -delete
-#
-#      - name: List dist directory
-#        run: ls -laR dist
-#
-#      - name: Deploy to GitHub Pages
-#        id: deployment
-#        uses: actions/deploy-pages@v4
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    if: ${{ needs.build.result == 'success' }}   # 明确要求 build 成功才执行
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   # =============================
   # 3. 发布 Release
