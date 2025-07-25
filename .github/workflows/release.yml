@@ -1,0 +1,54 @@
+# ========================
+# 工作流 3：上传 Release
+# 当工作流 1 (Build HTML Artifact) 成功完成后自动运行
+# ========================
+name: Upload Release
+
+# 触发条件：监听名为 "Build HTML Artifact" 的工作流执行完成
+on:
+  workflow_run:
+    workflows: ["Build HTML Artifact"]  # 必须与工作流 1 的 name 完全一致
+    types:
+      - completed                       # 工作流执行完成时触发
+
+jobs:
+  release:
+    # 只在工作流 1 成功完成时执行
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    # 设置 GitHub Token 权限，允许向仓库写入（创建 Release）
+    permissions:
+      contents: write  # 必须（用于发布 Release）
+
+    steps:
+      # 下载工作流 1 上传的 artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-html  # 必须与工作流 1 上传时的 artifact 名称一致
+          path: dist        # 下载到本地 dist 目录
+
+      # 压缩构建产物为 ZIP
+      - name: Archive build files
+        run: zip -r build.zip dist
+
+      # 生成标签：release-日期时间-短SHA (8位)
+      - name: Generate tag name
+        id: vars
+        run: |
+          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-8)
+          TAG_NAME="release-$(date +'%Y%m%d-%H%M%S')-${SHORT_SHA}"
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+
+      # docker 构建
+
+      # 创建 Release 并上传构建产物
+      - name: Create Release and Upload Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.SHORT_SHA }}   # 使用当前推送的 tag
+          name: "Release ${{ env.SHORT_SHA }}"
+          files: build.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

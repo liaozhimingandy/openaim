@@ -1,0 +1,43 @@
+# ========================
+# 工作流 1：专门负责编译 Vue 项目生成 HTML 静态文件
+# 构建完成后将 dist 目录上传为 artifact，供其他工作流使用
+# ========================
+name: Build HTML Artifact
+
+on:
+  push:
+    branches:
+      - main  # 当 main 分支有代码推送时触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取代码
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*' # 使用 Node LTS 版本（推荐稳定）
+          cache: npm            # 缓存 npm 依赖
+
+      # 安装依赖
+      - name: Install dependencies
+        run: npm ci
+
+      # 编译项目
+      - name: Build project
+        run: |
+          npm run build
+          # 为 GitHub Pages SPA 提供 404.html，避免路由刷新 404 问题
+          cp dist/index.html dist/404.html
+
+      # 将编译产物上传到 GitHub（artifact）
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-html  # artifact 名称
+          path: dist        # artifact 内容（dist 目录）

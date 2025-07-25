@@ -1,0 +1,27 @@
+# ========================
+# 工作流 2：从工作流 1 生成的 artifact 中下载 dist 并部署到 GitHub Pages
+# ========================
+name: Deploy to GitHub Pages
+
+on:
+  workflow_run:
+    workflows: ["Build HTML Artifact"]  # 依赖工作流 1 的构建结果
+    types:
+      - completed                       # 当构建完成后触发
+
+jobs:
+  deploy:
+    # 只在工作流 1 成功完成时执行
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      # 下载上一个工作流上传的 artifact（dist）
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-html  # 对应工作流 1 中的 artifact 名称
+          path: dist        # 下载到 dist 目录
+
+      # 将 dist 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
