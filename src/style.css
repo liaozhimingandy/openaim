@@ -1,0 +1,31 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #E9EBEE;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/*****去除所有内边距外边距*****/
+* {
+  padding: 0;
+  margin: 0;
+}
+/* 自定义进度条颜色 */
+#nprogress .bar{
+  background: #027AFF !important;
+}
+/* 自定义进度条位置 */
+#nprogress .bar {
+  height: 5px; /* 调整进度条的高度 */
+  top: 0; /* 使进度条紧贴顶部 */
+  position: fixed;
+  left: 0;
+  width: 100%;
+}
