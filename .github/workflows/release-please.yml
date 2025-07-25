@@ -2,7 +2,6 @@
 # GitHub Actions: 自动构建并生成发布文件（压缩包）
 # 触发条件：
 #   1. main 分支有 push
-#   2. 推送了符合 v* 格式的标签 (如 v1.0.0)
 # ========================
 
 name: Automated Release
@@ -11,8 +10,6 @@ on:
   push:
     branches:
       - main       # 监听 main 分支的推送
-    tags:
-      - 'v*'       # 监听符合 v* 格式的标签
 
 jobs:
   release:
@@ -52,12 +49,17 @@ jobs:
       - name: Archive build files
         run: zip -r build.zip dist
 
+      # 获取短 SHA 用于版本标识, 8位
+      - name: Get short SHA
+        id: vars
+        run: echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
+
       # 创建 Release 并上传构建产物
       - name: Create Release and Upload Asset
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.sha }}   # 使用当前提交 SHA 作为 tag（可改为版本号）
-          name: "Automated Release ${{ github.sha }}"
+          tag_name: ${{ env.SHORT_SHA }}   # 使用当前推送的 tag
+          name: "Automated Release ${{ env.SHORT_SHA }}"
           files: build.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
