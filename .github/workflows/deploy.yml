@@ -46,6 +46,10 @@ jobs:
       - name: Remove symlinks from dist
         run: |
           find dist -type l -exec rm -f {} +
+          
+      - name: Clean dist folder
+        run: |
+          find dist -name ".DS_Store" -delete
 
       # 将编译产物上传到 GitHub（artifact）
       - name: Upload artifact
