@@ -42,15 +42,6 @@ jobs:
           # 为 GitHub Pages SPA 提供 404.html，避免路由刷新 404 问题
           cp dist/index.html dist/404.html
 
-      # 移除 dist 目录中的符号链接
-      - name: Remove symlinks from dist
-        run: |
-          find dist -type l -exec rm -f {} +
-          
-      - name: Clean dist folder
-        run: |
-          find dist -name ".DS_Store" -delete
-
       # 将编译产物上传到 GitHub（artifact）
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -70,6 +61,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy
     steps:
+      # 下载工作流 1 上传的 artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages  # 必须与工作流 1 上传时的 artifact 名称一致
+          path: dist        # 下载到本地 dist 目录
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
@@ -88,6 +86,9 @@ jobs:
         with:
           name: github-pages  # 必须与工作流 1 上传时的 artifact 名称一致
           path: dist        # 下载到本地 dist 目录
+
+      - name: List dist content for debug
+        run: ls -alh dist
 
       # 压缩构建产物为 ZIP
       - name: Archive build files
