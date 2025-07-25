@@ -15,7 +15,6 @@ declare module 'vue' {
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
     ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter']
     ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader']
-    APopconfirm: typeof import('ant-design-vue/es')['Popconfirm']
     AResult: typeof import('ant-design-vue/es')['Result']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     ATypographyTitle: typeof import('ant-design-vue/es')['TypographyTitle']
