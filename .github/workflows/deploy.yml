@@ -68,6 +68,17 @@ jobs:
           name: github-pages  # 必须与工作流 1 上传时的 artifact 名称一致
           path: dist        # 下载到本地 dist 目录
 
+      - name: List dist content for debug
+        run: ls -alh dist
+
+      - name: Remove symlinks from dist
+        run: |
+          find dist -type l -exec rm -f {} +
+
+      - name: Clean dist folder
+        run: |
+          find dist -name ".DS_Store" -delete
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
