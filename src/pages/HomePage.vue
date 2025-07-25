@@ -52,7 +52,10 @@ onBeforeUnmount(async () => {
           </text>
         </svg>
         <a-anchor direction="horizontal" :items="items" :targetOffset="targetOffset"/>
-        <a-button href="mailto:liaozhimingandy@gmail.com" type="primary">联系我们</a-button>
+        <a-tooltip>
+            <template #title>电子邮箱:contact@openaim.cn</template>
+          <a-button href="mailto:contact@openaim.cn" type="primary">联系我们</a-button>
+        </a-tooltip>
       </a-flex>
     </a-layout-header>
     <a-layout-content ref="content">
