@@ -53,19 +53,16 @@ jobs:
   # 2. 部署到 GitHub Pages
   # =============================
   deploy:
-    needs: build        # 依赖构建完成
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
     if: ${{ needs.build.result == 'success' }}   # 明确要求 build 成功才执行
     runs-on: ubuntu-latest
+    name: Deploy
     steps:
-      # 下载上一个工作流上传的 artifact（dist）
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages  # 对应工作流 1 中的 artifact 名称
-          path: dist        # 下载到 dist 目录
-
-      # 将 dist 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
 
   # =============================
