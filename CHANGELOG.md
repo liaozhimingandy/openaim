@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.0](https://github.com/liaozhimingandy/openaim/compare/v1.0.2...v1.1.0) (2025-07-25)
+
+
+### Features
+
+* **core:** amis构建的第一个版本 ([ba141ad](https://github.com/liaozhimingandy/openaim/commit/ba141ad4bf95baf624247b1743141470cc223469))
+* **core:** 最后一次文本版本,后续改用amis低代码平台构建 ([ce4d877](https://github.com/liaozhimingandy/openaim/commit/ce4d877332478355a04268b0362a09da5247a10e))
+* **core:** 合并代码 ([8ba4263](https://github.com/liaozhimingandy/openaim/commit/8ba426392ead0a53825efa75e542c4b1a66363bf))
+
+
+### Bug Fixes
+
+* **core:** 修复一下首页问题 ([3e6da53](https://github.com/liaozhimingandy/openaim/commit/3e6da5351e0f5016bad0a8430bce50607cc29868))
+* **core:** 调整邮箱联系方式 ([362f0c5](https://github.com/liaozhimingandy/openaim/commit/362f0c5a26604a95345a4a6254eda849ef79a82c))
+
 ## [1.0.2](https://github.com/liaozhimingandy/openaim/compare/v1.0.1...v1.0.2) (2025-01-15)
 
 
