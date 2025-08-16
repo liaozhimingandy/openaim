@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {ref, onMounted, onBeforeUnmount} from 'vue';
-import {CScrollbar} from 'c-scrollbar'; // 滚动条
 
 const items = [
   {
@@ -24,20 +23,27 @@ const content = ref<any>(null);
 const footer = ref<any>(null);
 const targetOffset = ref<number | undefined>(undefined);
 const contentHeight = ref<number | undefined>(undefined);
+import {Grid} from 'ant-design-vue';
+
+const {useBreakpoint} = Grid;
+const screens = useBreakpoint();
 
 const updateContentHeight = () => {
-  targetOffset.value = header.value.$el.offsetHeight;
-  contentHeight.value = window.innerHeight - footer.value.$el.offsetHeight - 6;
+  const headerHeight = header.value?.$el?.offsetHeight ?? 0
+  const footerHeight = footer.value?.$el?.offsetHeight ?? 0
+  targetOffset.value = headerHeight
+  contentHeight.value = window.innerHeight - footerHeight - 6
 };
 
-onMounted(async () => {
+onMounted(() => {
   window.addEventListener("resize", updateContentHeight);
   updateContentHeight();
 });
 
-onBeforeUnmount(async () => {
+onBeforeUnmount(() => {
   window.removeEventListener("resize", updateContentHeight);
 })
+
 </script>
 
 <template>
@@ -51,18 +57,19 @@ onBeforeUnmount(async () => {
                 fill="#333333">邀请你来设计LOGO
           </text>
         </svg>
-        <a-anchor direction="horizontal" :items="items" :targetOffset="targetOffset"/>
-        <a-tooltip>
-            <template #title>电子邮箱:contact@openaim.cn</template>
+        <a-anchor v-if="!screens.xs" direction="horizontal" :items="items" :targetOffset="targetOffset">
+          <template #customTitle="{title}">
+            <a-typography-title :level="4">{{ title }}</a-typography-title>
+          </template>
+        </a-anchor>
+        <a-tooltip placement="bottomLeft">
+          <template #title>电子邮箱:contact@openaim.cn</template>
           <a-button href="mailto:contact@openaim.cn" type="primary">联系我们</a-button>
         </a-tooltip>
       </a-flex>
     </a-layout-header>
     <a-layout-content ref="content">
-      <c-scrollbar
-          trigger="hover"
-          class="content"
-      >
+
         <div id="home" class="content">
           <a-typography-title>通用人工智能(AI)时代已来临</a-typography-title>
         </div>
@@ -72,7 +79,6 @@ onBeforeUnmount(async () => {
         <div id="aboutme" class="content">
           <a-typography-title>我们正在寻找和我们有共同目标的朋友...<br>一起加入我们吗?</a-typography-title>
         </div>
-      </c-scrollbar>
     </a-layout-content>
     <a-layout-footer ref="footer" style="text-align: center; background-color: white">
       ©{{ new Date().getFullYear() }} openaim.cn

@@ -6,6 +6,7 @@ import 'nprogress/nprogress.css' // 引入样式
 
 import NotFoundPage from "../pages/NotFoundPage.vue";
 import HomePage from "../pages/HomePage.vue";
+import TestPage from "../pages/TestPage.vue";
 
 NProgress.inc(0.2)
 // 进度条配置（可选）
@@ -25,6 +26,7 @@ NProgress.configure({
 
 const routes = [
     {path: '/', name: 'home', component: HomePage},
+    {path: '/test', name: 'test', component: TestPage},
     {path: '/:catchALL(.*)/', component: NotFoundPage, name: 'not-fond', meta: {title: "Not Found"}},
 ]
 
