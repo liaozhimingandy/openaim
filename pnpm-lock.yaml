@@ -20,6 +20,9 @@ importers:
       c-scrollbar:
         specifier: ^1.0.2
         version: 1.0.2(typescript@5.6.3)
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       motion-v:
         specifier: ^1.7.0
         version: 1.7.0(@vueuse/core@13.6.0(vue@3.5.18(typescript@5.6.3)))(vue@3.5.18(typescript@5.6.3))
