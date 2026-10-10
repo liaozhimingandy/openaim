@@ -5,7 +5,7 @@ import {scrollToAnchor} from '@/composables/useSectionScroll'
 
 type PreviewMessage = (typeof heroPreview.messages)[number]
 
-const isAi = (message: PreviewMessage) => message.role === 'ai'
+const isAi = (message: PreviewMessage) => message.role === 'ai';
 </script>
 
 <template>
