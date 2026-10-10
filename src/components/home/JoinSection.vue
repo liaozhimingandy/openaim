@@ -29,7 +29,7 @@ const stepOptions: StepOption[] = join.steps.map((step, index) => ({
         <p class="aim-lead" data-reveal>{{ join.lead }}</p>
       </div>
 
-      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div class="grid auto-rows-fr gap-5 md:grid-cols-2 xl:grid-cols-4">
         <t-card
           v-for="role in join.roles"
           :key="role.title"
@@ -57,7 +57,7 @@ const stepOptions: StepOption[] = join.steps.map((step, index) => ({
       </div>
 
       <!-- 加入流程 -->
-      <div class="mt-10 rounded-[14px] border border-line bg-brand-soft-2 p-6 py-5" data-reveal>
+      <div class="mt-8 rounded-[14px] border border-line bg-brand-soft-2 p-6 py-5" data-reveal>
         <t-steps layout="horizontal" separator="arrow" :options="stepOptions"/>
       </div>
 

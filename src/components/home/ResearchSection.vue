@@ -12,7 +12,7 @@ import {research} from '@/config/content'
       </div>
 
       <!-- 6 个方向按两列铺开，共三行 -->
-      <div class="grid gap-4 md:grid-cols-2">
+      <div class="grid auto-rows-fr gap-4 md:grid-cols-2">
         <t-card
           v-for="item in research.items"
           :key="item.title"

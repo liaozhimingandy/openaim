@@ -1,21 +1,18 @@
 <script setup lang="ts">
 import {ArrowRightIcon, CheckCircleIcon} from 'tdesign-icons-vue-next'
-import {products} from '@/config/content'
+import {products, productsIntro} from '@/config/content'
 </script>
 
 <template>
   <section id="products" class="aim-section">
     <div class="aim-container">
       <div class="aim-section-head">
-        <span class="aim-eyebrow" data-reveal>我们的产品</span>
-        <h2 class="aim-title" data-reveal>研究的成果，我们也想做成能用的东西</h2>
-        <p class="aim-lead" data-reveal>
-          下面这些都在很早期的阶段，能跑起来的先上线，跑不动的就先写着。
-          每一款都欢迎你参与共建。
-        </p>
+        <span class="aim-eyebrow" data-reveal>{{ productsIntro.eyebrow }}</span>
+        <h2 class="aim-title" data-reveal>{{ productsIntro.title }}</h2>
+        <p class="aim-lead" data-reveal>{{ productsIntro.lead }}</p>
       </div>
 
-      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div class="grid auto-rows-fr gap-5 md:grid-cols-2 xl:grid-cols-4">
         <t-card
           v-for="product in products"
           :key="product.name"

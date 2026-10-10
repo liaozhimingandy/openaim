@@ -9,7 +9,7 @@ const isAi = (message: PreviewMessage) => message.role === 'ai'
 </script>
 
 <template>
-  <section id="home" class="relative overflow-hidden py-16 max-md:py-10 md:py-20">
+  <section id="home" class="aim-section relative overflow-hidden">
     <div
       class="aim-container grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12"
     >

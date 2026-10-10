@@ -6,22 +6,23 @@
  *
  * 文案基调：OpenAIM 目前处于起步阶段，不夸大进展、不编造数据，
  * 用「正在做什么 + 缺什么人」来吸引同路人。
+ *
+ * 路线定位（贯穿全站的口径，改文案时请保持一致）：
+ *   现在   —— 基于已有开源大模型做二次开发与产品化，先解决日常需求
+ *   接下来 —— 积累微调经验，把语音、图像、多模态能力接进来
+ *   以后   —— 团队与算力都够了再考虑自研基础模型，现在明确不碰
  */
 import type {Component} from 'vue'
 import {
   BookIcon,
-  ChartBubbleIcon,
   ChatIcon,
-  CodeIcon,
-  FolderIcon,
-  LayersIcon,
+  CompassIcon,
+  ImageIcon,
   LaptopIcon,
-  LockOnIcon,
-  PenIcon,
+  LayersIcon,
   ServerIcon,
   SettingIcon,
-  ToolsIcon,
-  UsergroupIcon,
+  SoundIcon,
 } from 'tdesign-icons-vue-next'
 
 /** 顶部导航项 */
@@ -37,6 +38,14 @@ export interface NavItem {
 /** 我们的目标条目 */
 export interface MissionItem {
   icon: Component
+  title: string
+  desc: string
+}
+
+/** 阶段路线条目 */
+export interface RoadmapItem {
+  /** 阶段标签：现在 / 接下来 / 以后 */
+  phase: string
   title: string
   desc: string
 }
@@ -86,32 +95,32 @@ export const navItems: NavItem[] = [
 export const siteConfig = {
   name: 'OpenAIM',
   /** 品牌副标题 */
-  slogan: '开放的通用大模型研究小组',
+  slogan: '开源大模型应用小组',
   email: 'contact@openaim.cn',
   /** TODO: 换成真实的 GitHub / 社区地址，留空则不展示相关入口 */
   githubUrl: '',
   description:
-    'OpenAIM 是一个围绕通用大模型（AIM）的开放小组：读论文、跑实验、写工具，把研究过程公开出来，也把成果做成能用的产品。',
+    'OpenAIM 是一个围绕开源大模型的开放小组：不做预训练，把力气花在二次开发、微调和产品化上，让语音、文本、图像与多模态能力真正走进日常。',
   /** 起步状态的一句话说明，首页多处引用 */
   stageNote: '2026 年起步 · 第一批成员招募中 · 全部过程公开',
 }
 
 /** 带主题的邮件链接（点击后自动填好主题） */
 export const joinMailto = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-  '想加入 OpenAIM，一起做大模型研究',
+  '想加入 OpenAIM，一起做开源大模型应用',
 )}`
 
 /** 首屏（Hero）文案 */
 export const hero = {
   badge: siteConfig.stageNote,
-  titlePrefix: '通用人工智能（AI）时代',
-  titleHighlight: '已来临',
+  titlePrefix: '开源大模型已经够好，',
+  titleHighlight: '缺的是把它用起来的人',
   lead:
-    'OpenAIM 是一个刚开始组建的开放小组，围绕通用大模型（AIM）读论文、跑实验、写工具。我们现在人不多，进展也不快，所以不谈宏大叙事——只把正在做的事和缺的人写清楚。',
+    '预训练一次动辄几百万，现阶段我们不做。OpenAIM 选择站在开源模型的肩上：做二次开发、做微调、做产品，把语音、文本、图像和多模态能力变成解决日常问题的工具。我们现在人不多，进展也不快，所以只把正在做的事和缺的人写清楚。',
   points: [
-    '研究和产品一起做：不止于论文，也把它做成能跑起来的东西',
-    '过程全部公开：笔记、实验记录、踩过的坑都会写下来',
-    '起步阶段：方向和节奏都还可以一起商量',
+    '先应用、后基础：模型用开源的，力气花在场景和体验上',
+    '四类模型都碰：语音、文本、图像、多模态，挑真实需求做',
+    '过程全部公开：方案、微调记录、踩过的坑都会写下来',
   ],
   primaryAction: '联系我们',
   secondaryAction: '看看我们在做什么',
@@ -122,37 +131,63 @@ export const heroPreview = {
   title: 'OpenAIM Chat',
   status: '示意图',
   messages: [
-    {role: 'ai', text: '你好，我是 OpenAIM Assistant。可以帮你读论文、整理资料、写点代码。'},
-    {role: 'user', text: '帮我把这篇论文的方法部分理一遍'},
-    {role: 'ai', text: '先给出它要解决什么问题、用了什么方法，要不要展开讲实验设计？'},
+    {role: 'ai', text: '你好，我是 OpenAIM Assistant。可以听你说、看你的图，也能帮你写点东西。'},
+    {role: 'user', text: '把这段会议录音整理成一页纪要'},
+    {role: 'ai', text: '已经转写完了，按「结论 / 待办 / 责任人」排好，要导出吗？'},
   ],
-  chips: ['文档问答', '论文精读', '代码助手'],
-  placeholder: '问点什么，或者直接丢一篇论文给我…',
+  chips: ['语音转写', '图片识表', '文档问答'],
+  placeholder: '说说你想解决什么问题…',
 }
 
 /** 我们在做什么 */
 export const mission = {
   eyebrow: '我们在做什么',
-  title: '和我们一起，用大语言模型造福人类',
+  title: '把开源大模型，做成能解决日常问题的东西',
   lead:
-    '这是一件几个人做不完的事，所以从一开始就打算公开地做。现在的重点是三件：',
+    '自研基础模型的训练成本太高，不是现阶段该碰的事。我们选另一条路：用好已经开源的模型，做二次开发和微调，让它真正落地到生活里。',
   items: [
     {
+      icon: LaptopIcon,
+      title: '做能用的应用',
+      desc: '不做完 Demo 就结束。选一个具体的日常场景，做成真的能天天用的东西，再慢慢打磨。',
+    },
+    {
+      icon: SettingIcon,
+      title: '围绕场景做微调',
+      desc: '通用模型不够贴合时，用 LoRA 这类低成本方案做领域适配，效果和算力成本一起记下来。',
+    },
+    {
       icon: BookIcon,
-      title: '把学习过程写出来',
-      desc: '论文笔记、复现记录、踩坑总结都放到公开的知识库里，别人能顺着我们走过的路往下走。',
-    },
-    {
-      icon: ToolsIcon,
-      title: '做自己会用的工具',
-      desc: '从数据处理到评测脚本，先把轮子做出来，能用比完美更重要。',
-    },
-    {
-      icon: UsergroupIcon,
-      title: '让更多人参与进来',
-      desc: '把门槛尽量降低：任务拆细、文档写清楚，让有兴趣的人能真正上手而不是看热闹。',
+      title: '过程全部公开',
+      desc: '方案、数据、微调记录、踩坑总结都写进公开知识库，别人能顺着我们走过的路往下走。',
     },
   ] satisfies MissionItem[],
+  /** 阶段路线：先应用化，最后才谈基础模型 */
+  roadmap: [
+    {
+      phase: '现在',
+      title: '应用化',
+      desc: '基于现有开源模型做二次开发，先把一个日常场景完整跑通。',
+    },
+    {
+      phase: '接下来',
+      title: '微调与多模态',
+      desc: '积累数据与微调经验，把语音、图像、多模态能力接进应用。',
+    },
+    {
+      phase: '以后',
+      title: '基础模型',
+      desc: '等团队和算力都够了再考虑自研。现在明确不做，也不画这个饼。',
+    },
+  ] satisfies RoadmapItem[],
+}
+
+/** 产品区标题文案 */
+export const productsIntro = {
+  eyebrow: '我们的产品',
+  title: '四类模型，从最日常的需求做起',
+  lead:
+    '每一款对应一类模型能力，也都还在很早的阶段：能跑起来的先上线，跑不动的就先写着。全部欢迎参与共建。',
 }
 
 /**
@@ -161,43 +196,43 @@ export const mission = {
  */
 export const products: ProductItem[] = [
   {
-    icon: BookIcon,
-    name: 'OpenAIM Docs',
-    tagline: '公开知识库',
-    desc: '存放论文笔记、实践手册和踩坑记录，任何人都可以提交修改。这是目前优先级最高的一块。',
-    status: '起步中',
-    statusTheme: 'primary',
-    highlights: ['论文笔记', '实践手册', '开放编辑'],
-    href: '',
-  },
-  {
     icon: ChatIcon,
     name: 'OpenAIM Chat',
-    tagline: '对话助手',
-    desc: '面向问答、写作与代码场景的对话界面，支持切换不同的开源模型。目前还在搭基本功能。',
+    tagline: '文本 · 日常对话助手',
+    desc: '面向写作、问答、整理资料这些日常场景的对话界面，底层可以切换不同的开源文本模型。',
     status: '早期开发',
     statusTheme: 'warning',
-    highlights: ['多模型接入', '上下文管理'],
+    highlights: ['多模型切换', '长文档问答'],
     href: '',
   },
   {
-    icon: CodeIcon,
-    name: 'OpenAIM API',
-    tagline: '统一推理接口',
-    desc: '一套接口接入多个开源模型，带基础的限流和用量统计。现阶段只满足内部调用需求。',
+    icon: SoundIcon,
+    name: 'OpenAIM Voice',
+    tagline: '语音 · 听得懂也能说',
+    desc: '语音识别加语音合成，做会议纪要、语音输入、口语陪练这类离不开耳朵和嘴的场景。',
     status: '规划中',
     statusTheme: 'danger',
-    highlights: ['接口统一', '用量统计'],
+    highlights: ['语音转写', '语音合成'],
+    href: '',
+  },
+  {
+    icon: ImageIcon,
+    name: 'OpenAIM Vision',
+    tagline: '图像 · 看得懂也会画',
+    desc: '图片理解与生成：识别截图、表格和票据，也可以按一句描述生成配图。',
+    status: '规划中',
+    statusTheme: 'danger',
+    highlights: ['图片理解', '图像生成'],
     href: '',
   },
   {
     icon: ServerIcon,
     name: 'OpenAIM Studio',
-    tagline: '训练与评测',
-    desc: '数据准备、微调训练、效果评测放在一处，让实验可追溯。还在确定方案阶段。',
-    status: '规划中',
-    statusTheme: 'danger',
-    highlights: ['实验记录', '结果对比'],
+    tagline: '二次开发底座',
+    desc: '模型接入、微调训练、效果评测放在一处。这是我们自己做应用的工具箱，也会开源出来。',
+    status: '起步中',
+    statusTheme: 'primary',
+    highlights: ['模型接入', 'LoRA 微调', '效果评测'],
     href: '',
   },
 ]
@@ -205,39 +240,39 @@ export const products: ProductItem[] = [
 /** 研究方向 */
 export const research = {
   eyebrow: '研究方向',
-  title: '我们打算从这几块入手',
+  title: '围绕四类模型，我们打算从这几块入手',
   lead:
-    '方向不贪多，先选了六个我们认为值得长期投入的点。每一块都缺人，也不要求你已经是专家——愿意长期投入一件事就够了。',
+    '预训练暂时不碰，所以这里的「研究」更偏工程：怎么把已有的开源模型用得更好、更省、更贴场景。六个方向都缺人，也不要求你已经是专家——愿意长期投入一件事就够了。',
   items: [
     {
+      icon: ChatIcon,
+      title: '文本模型应用',
+      desc: '对话、写作、知识问答与 Agent 编排，把通用能力接进具体的工作流里。',
+    },
+    {
+      icon: SoundIcon,
+      title: '语音模型',
+      desc: '语音识别与合成的选型和串联，解决延迟、方言、嘈杂环境这些真会遇到的问题。',
+    },
+    {
+      icon: ImageIcon,
+      title: '图像模型',
+      desc: '图片理解与生成，重点放在表格、票据、截图这类日常高频的场景上。',
+    },
+    {
       icon: LayersIcon,
-      title: '预训练与模型架构',
-      desc: '跟进主流架构的演进，做小规模的验证性实验，理解它们为什么有效。',
+      title: '多模态模型',
+      desc: '图文音视频怎么融合到一起，以及跨模态检索与指令跟随的实际效果。',
     },
     {
       icon: SettingIcon,
       title: '微调与对齐',
-      desc: 'LoRA / QLoRA 等低成本微调方法，以及指令数据与对齐流程的实践。',
+      desc: 'LoRA / QLoRA 等低成本微调，加上指令数据构造与领域适配的完整流程。',
     },
     {
       icon: ServerIcon,
-      title: '推理与部署',
-      desc: '量化、推理加速、服务化，目标是让有限的算力跑出更高的吞吐。',
-    },
-    {
-      icon: ChartBubbleIcon,
-      title: '多模态',
-      desc: '文本之外的模态怎么接进来，以及跨模态检索与生成的基本功。',
-    },
-    {
-      icon: FolderIcon,
-      title: '数据与合成',
-      desc: '语料清洗、去重与配比，以及用模型反过来生成训练数据的可行做法。',
-    },
-    {
-      icon: LockOnIcon,
-      title: '评测与安全',
-      desc: '建立我们自己的评测流程，关注幻觉、稳定性这些实际使用中会遇到的问题。',
+      title: '推理部署与成本',
+      desc: '量化、加速、端侧部署，让有限的算力跑出能接受的体验和价格。',
     },
   ] satisfies ResearchItem[],
 }
@@ -247,37 +282,37 @@ export const join = {
   eyebrow: '加入我们',
   title: '我们需要同伴',
   lead:
-    '没有编制也没有 KPI，只有想把事情做出来的人。下面是目前最缺的四类角色——如果你的专长不在其中，也同样欢迎自荐。',
+    '没有编制也没有 KPI，只有想把事情做出来的人。下面是目前最缺的四类角色——不需要你做过预训练，如果你的专长不在其中，也同样欢迎自荐。',
   roles: [
     {
       icon: LaptopIcon,
-      title: '算法与实验',
-      desc: '读论文、设计实验、跑复现，把结论整理成别人能验证的笔记。',
-      tags: ['PyTorch', '论文复现', '实验设计'],
+      title: '应用工程',
+      desc: '前端和后端一起做：把模型能力包装成好用的界面、稳定的服务。',
+      tags: ['Vue', 'Python', '后端'],
     },
     {
-      icon: CodeIcon,
-      title: '工程开发',
-      desc: '训练与推理管线、后端服务、接口封装，让想法能真正跑起来。',
-      tags: ['Python', '推理部署', '后端'],
+      icon: SettingIcon,
+      title: '模型微调',
+      desc: '整理数据、跑 LoRA 微调、做效果评测，把结论写成别人能复现的记录。',
+      tags: ['LoRA', '数据清洗', '评测'],
     },
     {
-      icon: PenIcon,
-      title: '前端与产品',
-      desc: '把模型能力做成好用的界面，负责站点、控制台和交互细节。',
-      tags: ['Vue', '交互设计'],
+      icon: LayersIcon,
+      title: '语音 / 图像 / 多模态',
+      desc: '负责语音、图像或多模态方向的选型、串联与落地实验，挑一个方向深耕。',
+      tags: ['ASR / TTS', '图像生成', '多模态'],
     },
     {
-      icon: UsergroupIcon,
-      title: '内容与协作',
-      desc: '整理笔记、校对文档、翻译资料，让社区的新人能顺利上手。',
-      tags: ['写作', '翻译', '整理'],
+      icon: CompassIcon,
+      title: '场景与社区',
+      desc: '挖掘真实需求、设计交互、整理文档，让新来的人能顺利上手。',
+      tags: ['需求挖掘', '交互设计', '写作'],
     },
   ] satisfies JoinRoleItem[],
   steps: [
     {
       title: '写封邮件',
-      desc: '简单介绍一下你和感兴趣的方向，不用写得很正式。',
+      desc: '简单介绍一下你和感兴趣的方向（语音 / 文本 / 图像 / 多模态都行），不用写得很正式。',
     },
     {
       title: '聊一次',
@@ -285,7 +320,7 @@ export const join = {
     },
     {
       title: '认领一件事',
-      desc: '从一个具体的小任务开始，产出会以文档或开源的形式公开。',
+      desc: '从一个具体的小任务开始，产出会以文档或开源的形式公开出来。',
     },
   ],
   ctaTitle: '要不要一起来？',

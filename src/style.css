@@ -86,14 +86,30 @@
     @apply mx-auto w-full max-w-[1200px] px-6 max-md:px-4;
   }
 
-  /* 区块间距 */
+  /* 区块：一屏一节
+     ---------------------------------------------------------------
+     最小高度 = 视口高度 - 吸顶导航高度，内容在剩余空间里垂直居中。
+     这样点击导航跳转后，视口里除了顶部导航栏只会看到目标区块本身。
+
+     用 svh 而不是 vh：移动端浏览器地址栏收起/展开时 vh 会跳变，
+     svh 取的是「地址栏展开」时的稳定值，区块高度不会抖。 */
   .aim-section {
-    @apply py-22 max-md:py-15;
+    @apply flex flex-col py-16 max-md:py-12;
+    min-height: calc(100vh - var(--spacing-header));
+    min-height: calc(100svh - var(--spacing-header));
+  }
+
+  /* 内容在剩余高度里垂直居中。
+     这里用 auto margin 而不是 justify-content: center —— 后者在内容超过一屏时
+     会把溢出的上半部分推到滚动区之外，导致顶部内容永远滚不到；auto margin 在
+     没有剩余空间时自动归零，天然安全，也不用依赖 `safe center` 的浏览器支持。 */
+  .aim-section > * {
+    margin-block: auto;
   }
 
   /* 区块头部 */
   .aim-section-head {
-    @apply mb-10 max-w-[720px] max-md:mb-7;
+    @apply mb-8 max-w-[720px] max-md:mb-6;
   }
 
   .aim-eyebrow {

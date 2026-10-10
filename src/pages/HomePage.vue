@@ -7,8 +7,13 @@ import ResearchSection from '@/components/home/ResearchSection.vue'
 import SiteFooter from '@/components/home/SiteFooter.vue'
 import SiteHeader from '@/components/home/SiteHeader.vue'
 import {useScrollReveal} from '@/composables/useScrollReveal'
+import {scrollToHashOnLoad} from '@/composables/useSectionScroll'
+import {onMounted} from 'vue'
 
 useScrollReveal()
+
+// 直接带 #锚点 打开页面时校正一次滚动位置
+onMounted(scrollToHashOnLoad)
 </script>
 
 <template>
