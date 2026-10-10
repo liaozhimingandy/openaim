@@ -10,13 +10,15 @@
 @import "tailwindcss";
 
 /* --------------------------- 设计令牌 --------------------------- */
+/* 品牌只需要定一个 --color-brand，其余色阶全部由 color-mix 派生。
+   --color-brand 的实际值来自 .env 的 VITE_THEME_COLOR（由 vite.config.ts
+   注入到 index.html），这里写的是兜底默认值。改色只需改 .env 一处。 */
 @theme {
-  /* 品牌色（与 .env 的 VITE_THEME_COLOR、public/favicon.svg 保持一致） */
   --color-brand: #1296db;
-  --color-brand-600: #0f7fb9;
-  --color-brand-700: #0d6b9c;
-  --color-brand-soft: #e8f6fd;
-  --color-brand-soft-2: #f2fafd;
+  --color-brand-600: color-mix(in oklab, var(--color-brand) 88%, black);
+  --color-brand-700: color-mix(in oklab, var(--color-brand) 74%, black);
+  --color-brand-soft: color-mix(in oklab, var(--color-brand) 10%, white);
+  --color-brand-soft-2: color-mix(in oklab, var(--color-brand) 5%, white);
 
   /* 中性色 */
   --color-ink-900: #0b1b2b;
@@ -33,19 +35,29 @@
   --spacing-header: 64px;
 }
 
+/* 把 TDesign 的主色令牌接到品牌色上，Button / Tag / Input 等自动跟随。
+   同样用 color-mix 派生，色阶 1(最浅) → 10(最深)，7 为实际主色。
+   本文件在 main.ts 中排在 tdesign 样式之后导入，所以这里的 :root 能覆盖默认值。 */
 :root {
-  /* 把 TDesign 的主色令牌接到品牌色上，Button / Tag / Input 等自动跟随。
-     色阶 1(最浅) → 10(最深)，7 为实际主色。 */
-  --td-brand-color-1: #e8f6fd;
-  --td-brand-color-2: #bfe7f8;
-  --td-brand-color-3: #96d8f3;
-  --td-brand-color-4: #6dc9ee;
-  --td-brand-color-5: #45b9e9;
-  --td-brand-color-6: #2aa9e2;
-  --td-brand-color-7: #1296db;
-  --td-brand-color-8: #0f7fb9;
-  --td-brand-color-9: #0c6897;
-  --td-brand-color-10: #095175;
+  --td-brand-color: var(--color-brand);
+  --td-brand-color-1: color-mix(in oklab, var(--color-brand) 8%, white);
+  --td-brand-color-2: color-mix(in oklab, var(--color-brand) 20%, white);
+  --td-brand-color-3: color-mix(in oklab, var(--color-brand) 35%, white);
+  --td-brand-color-4: color-mix(in oklab, var(--color-brand) 50%, white);
+  --td-brand-color-5: color-mix(in oklab, var(--color-brand) 68%, white);
+  --td-brand-color-6: color-mix(in oklab, var(--color-brand) 84%, white);
+  --td-brand-color-7: var(--color-brand);
+  --td-brand-color-8: color-mix(in oklab, var(--color-brand) 88%, black);
+  --td-brand-color-9: color-mix(in oklab, var(--color-brand) 74%, black);
+  --td-brand-color-10: color-mix(in oklab, var(--color-brand) 60%, black);
+
+  /* 交互态与浅色底 */
+  --td-brand-color-hover: color-mix(in oklab, var(--color-brand) 88%, black);
+  --td-brand-color-active: color-mix(in oklab, var(--color-brand) 74%, black);
+  --td-brand-color-focus: color-mix(in oklab, var(--color-brand) 25%, white);
+  --td-brand-color-disabled: color-mix(in oklab, var(--color-brand) 32%, white);
+  --td-brand-color-light: color-mix(in oklab, var(--color-brand) 10%, white);
+  --td-brand-color-light-hover: color-mix(in oklab, var(--color-brand) 18%, white);
 
   /* 组件圆角与字号跟站点风格对齐 */
   --td-radius-default: 10px;
