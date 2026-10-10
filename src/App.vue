@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import {ref} from 'vue';
-import zhCN from "ant-design-vue/lib/locale/zh_CN"; // 导入中文语言包
+import zhCN from 'tdesign-vue-next/es/locale/zh_CN'; // TDesign 中文语言包
+import type {GlobalConfigProvider} from 'tdesign-vue-next';
 
-import dayjs from "dayjs";
-import "dayjs/locale/zh-cn";
-dayjs.locale("zh-cn");
-const locale = ref(zhCN);
+// 语言包内部使用 readonly 数组声明，这里是已知的类型差异，做一次收敛即可
+const globalConfig = ref<GlobalConfigProvider>(zhCN as unknown as GlobalConfigProvider);
 </script>
 
 <template>
-  <a-config-provider :locale="locale">
+  <t-config-provider :global-config="globalConfig">
     <router-view/>
-  </a-config-provider>
+  </t-config-provider>
 </template>
-
-<style scoped>
-
-</style>

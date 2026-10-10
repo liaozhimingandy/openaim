@@ -1,31 +1,175 @@
+/* ==========================================================================
+   OpenAIM 全局样式
+   --------------------------------------------------------------------------
+   分工：
+   - Tailwind 负责绝大部分布局与视觉（utility class 写在模板里）
+   - TDesign 负责交互组件（Button / Tag / Card / Steps / Input）
+   - 本文件只保留：设计令牌、TDesign 主题对接、少量高复用语义类
+   ========================================================================== */
+
+@import "tailwindcss";
+
+/* --------------------------- 设计令牌 --------------------------- */
+@theme {
+  /* 品牌色（与 .env 的 VITE_THEME_COLOR、public/favicon.svg 保持一致） */
+  --color-brand: #1296db;
+  --color-brand-600: #0f7fb9;
+  --color-brand-700: #0d6b9c;
+  --color-brand-soft: #e8f6fd;
+  --color-brand-soft-2: #f2fafd;
+
+  /* 中性色 */
+  --color-ink-900: #0b1b2b;
+  --color-ink-700: #25384a;
+  --color-ink-500: #4a5b6d;
+  --color-ink-400: #6b7c8d;
+  --color-ink-300: #94a3b4;
+  --color-line: #e5eaf0;
+  --color-line-soft: #eef2f7;
+  --color-bg-soft: #f5f8fc;
+  --color-bg-deep: #08111f;
+
+  /* 吸顶导航高度，锚点滚动偏移会用到 */
+  --spacing-header: 64px;
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* 把 TDesign 的主色令牌接到品牌色上，Button / Tag / Input 等自动跟随。
+     色阶 1(最浅) → 10(最深)，7 为实际主色。 */
+  --td-brand-color-1: #e8f6fd;
+  --td-brand-color-2: #bfe7f8;
+  --td-brand-color-3: #96d8f3;
+  --td-brand-color-4: #6dc9ee;
+  --td-brand-color-5: #45b9e9;
+  --td-brand-color-6: #2aa9e2;
+  --td-brand-color-7: #1296db;
+  --td-brand-color-8: #0f7fb9;
+  --td-brand-color-9: #0c6897;
+  --td-brand-color-10: #095175;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #E9EBEE;
+  /* 组件圆角与字号跟站点风格对齐 */
+  --td-radius-default: 10px;
+  --td-radius-medium: 10px;
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* --------------------------- 基础层 --------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* 吸顶导航 64px，锚点跳转时留出空间 */
+    scroll-padding-top: calc(var(--spacing-header) + 16px);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply min-h-screen bg-white text-ink-900;
+  }
+
+  #app {
+    @apply min-h-screen;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  ::selection {
+    @apply bg-brand-soft text-brand-700;
+  }
 }
-/*****去除所有内边距外边距*****/
-* {
-  padding: 0;
-  margin: 0;
+
+/* ------------------------ 高复用语义类 ------------------------ */
+@layer components {
+  /* 页面容器 */
+  .aim-container {
+    @apply mx-auto w-full max-w-[1200px] px-6 max-md:px-4;
+  }
+
+  /* 区块间距 */
+  .aim-section {
+    @apply py-22 max-md:py-15;
+  }
+
+  /* 区块头部 */
+  .aim-section-head {
+    @apply mb-10 max-w-[720px] max-md:mb-7;
+  }
+
+  .aim-eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full bg-brand-soft px-3 py-1 text-[13px] font-semibold tracking-wide text-brand-700;
+  }
+
+  .aim-title {
+    @apply mt-3 text-[clamp(24px,2.8vw,34px)] font-bold leading-tight tracking-tight text-ink-900;
+  }
+
+  .aim-lead {
+    @apply mt-3.5 text-[clamp(14.5px,1.4vw,16.5px)] text-ink-500;
+  }
+
+  /* 卡片左上角的图标方块 */
+  .aim-icon-box {
+    @apply inline-flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-brand-soft text-brand-700;
+  }
+
+  .aim-icon-box-sm {
+    @apply inline-flex size-8 shrink-0 items-center justify-center rounded-[9px] bg-brand-soft text-brand-700;
+  }
+
+  /* 卡片标题行（图标 + 标题） */
+  .aim-card-head {
+    @apply flex items-center gap-2.5;
+  }
+
+  /* 正文描述 */
+  .aim-desc {
+    @apply text-[14.5px] leading-[1.75] text-ink-500;
+  }
+
+  .aim-desc-sm {
+    @apply text-sm leading-[1.75] text-ink-500;
+  }
 }
-/* 自定义进度条颜色 */
-#nprogress .bar{
-  background: #027AFF !important;
+
+/* --------------------- 滚动进场动画 --------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
 }
-/* 自定义进度条位置 */
+
+[data-reveal].reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* --------------------- 顶部进度条 --------------------- */
 #nprogress .bar {
-  height: 5px; /* 调整进度条的高度 */
-  top: 0; /* 使进度条紧贴顶部 */
+  background: var(--color-brand) !important;
+  height: 3px !important;
+  top: 0;
   position: fixed;
   left: 0;
   width: 100%;
+}
+
+#nprogress .peg {
+  box-shadow:
+    0 0 10px var(--color-brand),
+    0 0 5px var(--color-brand) !important;
 }

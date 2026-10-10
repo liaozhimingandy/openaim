@@ -1,11 +1,19 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import {version} from './package.json'
-import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers'
-import AutoImport from 'unplugin-auto-import/vite'
+import tailwindcss from '@tailwindcss/vite'
+import {fileURLToPath} from 'node:url'
+import {readFileSync} from 'node:fs'
+import {TDesignResolver} from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import removeConsole from 'vite-plugin-remove-console'
+
+// 直接读 package.json 而不用 JSON import：Vite 的 native config loader
+// 对裸 JSON 导入有兼容限制，会输出告警。
+const version = (
+  JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf-8')) as {
+    version: string
+  }
+).version
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,15 +26,13 @@ export default defineConfig({
     },
     plugins: [
         vue(),
-        AutoImport({
-            resolvers: [
-                AntDesignVueResolver()
-            ],
-        }),
+        tailwindcss(),
         Components({
+            dts: 'components.d.ts',
             resolvers: [
-                AntDesignVueResolver({
-                    importStyle: false, // css in js
+                TDesignResolver({
+                    library: 'vue-next',    // Vue3 对应的包名：tdesign-vue-next
+                    resolveIcons: true,     // 支持以 <xxx-icon /> 形式自动引入图标
                 }),
             ],
         }),
@@ -37,7 +43,8 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, './src'), // 这里设置@为src目录别名
+            // ESM 环境下没有 __dirname，用 import.meta.url 推导绝对路径
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
         },
     },
 })

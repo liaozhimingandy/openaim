@@ -1,12 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>openaim</title>
+    <meta name="theme-color" content="#1296db" />
+    <title>OpenAIM · 开放的通用大模型研究小组</title>
+    <meta
+      name="description"
+      content="OpenAIM 是一个刚开始组建的开放小组：围绕通用大模型（AIM）读论文、跑实验、写工具，把研究过程公开出来，也把成果做成能用的产品。欢迎一起参与。"
+    />
+    <meta name="keywords" content="OpenAIM,通用大模型,AIM,大模型研究,开源,LLM,人工智能" />
+    <meta property="og:title" content="OpenAIM · 开放的通用大模型研究小组" />
+    <meta
+      property="og:description"
+      content="刚开始组建的开放研究小组：一起读论文、跑实验、做产品。正在招募第一批成员。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OpenAIM" />
   </head>
   <body>
+    <noscript>
+      <style>
+        /* 关闭 JS 时的渐显动画无法正常触发，这里让内容直接可见 */
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
